@@ -1,0 +1,40 @@
+# Java
+core-api/target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+ai-service/evals/out/
+ai-service/.langgraph_checkpoints/
+
+# Node
+node_modules/
+review-ui/dist/
+review-ui/.vite/
+*.tsbuildinfo
+
+# Local runtime data
+data/
+pgdata/
+.env
+!.env.example
+*.log
+*.pid
+ai-service/google-sample-*.json
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml

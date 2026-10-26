@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "page_id": "11111111-1111-4111-8111-111111111111",
+  "layout_type": "customer_ledger",
+  "currency": "INR",
+  "customer_name": {
+    "value": "Ravi Kumar",
+    "status": "readable"
+  },
+  "opening_balance_paise": 250000,
+  "closing_balance_paise": 377500,
+  "entries": [
+    {
+      "entry_id": "e1",
+      "date": "2024-11-02",
+      "date_status": "readable",
+      "description": "Cement 2 bags",
+      "debit_paise": 120000,
+      "credit_paise": null,
+      "entry_status": "active",
+      "source_text": "2 bag cement 1200",
+      "issues": [],
+      "running_balance_paise": 370000,
+      "customer_name": null
+    },
+    {
+      "entry_id": "e2",
+      "date": "2024-11-09",
+      "date_status": "readable",
+      "description": "Cash payment",
+      "debit_paise": null,
+      "credit_paise": 100000,
+      "entry_status": "active",
+      "source_text": "cash 1000",
+      "issues": [],
+      "running_balance_paise": 270000,
+      "customer_name": null
+    },
+    {
+      "entry_id": "e3",
+      "date": "2024-11-15",
+      "date_status": "readable",
+      "description": "Paint 1 bucket",
+      "debit_paise": 45000,
+      "credit_paise": null,
+      "entry_status": "active",
+      "source_text": "paint 450",
+      "issues": [],
+      "running_balance_paise": 315000,
+      "customer_name": null
+    },
+    {
+      "entry_id": "e4",
+      "date": "2024-11-21",
+      "date_status": "readable",
+      "description": "Steel rod 20kg - cancelled",
+      "debit_paise": 80000,
+      "credit_paise": null,
+      "entry_status": "crossed_out",
+      "source_text": "20 kg rod 800 X",
+      "issues": [],
+      "running_balance_paise": 315000,
+      "customer_name": null
+    },
+    {
+      "entry_id": "e5",
+      "date": "2024-11-24",
+      "date_status": "readable",
+      "description": "Steel rod 25kg",
+      "debit_paise": 62500,
+      "credit_paise": null,
+      "entry_status": "active",
+      "source_text": "25 kg rod 625",
+      "issues": [],
+      "running_balance_paise": 377500,
+      "customer_name": null
+    }
+  ],
+  "page_issues": [],
+  "review_required": false
+}

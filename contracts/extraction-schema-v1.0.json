@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kadaibook.local/contracts/extraction-schema-v1.0.json",
+  "title": "KadaiBook page extraction v1.0",
+  "description": "Canonical output of the AI extraction pipeline. The same shape is used for model output, stored runs, and ground-truth labels. Money is integer paise. Unknown values stay null; they are never replaced with zero or today's date.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "page_id",
+    "layout_type",
+    "currency",
+    "customer_name",
+    "opening_balance_paise",
+    "closing_balance_paise",
+    "entries",
+    "page_issues",
+    "review_required"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "page_id": { "type": "string", "format": "uuid" },
+    "layout_type": {
+      "enum": ["customer_ledger", "date_wise", "summary", "unknown"]
+    },
+    "currency": { "const": "INR" },
+    "customer_name": { "$ref": "#/$defs/name_value" },
+    "opening_balance_paise": {
+      "type": ["integer", "null"],
+      "description": "Balance brought forward, as written. Positive means the customer owes the shop."
+    },
+    "closing_balance_paise": {
+      "type": ["integer", "null"],
+      "description": "Closing balance as written on the page. Null when absent or unreadable."
+    },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entry" }
+    },
+    "page_issues": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/issue_code" },
+      "description": "Page-level issue codes, e.g. no_running_totals, unknown_layout, low_layout_confidence."
+    },
+    "review_required": { "type": "boolean" }
+  },
+  "$defs": {
+    "name_value": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "status"],
+      "properties": {
+        "value": { "type": ["string", "null"] },
+        "status": { "enum": ["readable", "ambiguous", "unreadable"] }
+      }
+    },
+    "issue_code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry_id",
+        "date",
+        "date_status",
+        "description",
+        "debit_paise",
+        "credit_paise",
+        "entry_status",
+        "source_text",
+        "issues",
+        "running_balance_paise",
+        "customer_name"
+      ],
+      "properties": {
+        "entry_id": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "date": {
+          "type": ["string", "null"],
+          "format": "date",
+          "description": "ISO date (YYYY-MM-DD). Null when absent or unreadable."
+        },
+        "date_status": { "enum": ["readable", "ambiguous", "unreadable"] },
+        "description": { "type": ["string", "null"] },
+        "debit_paise": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Amount that increases what the customer owes."
+        },
+        "credit_paise": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Payment or credit that reduces what the customer owes."
+        },
+        "entry_status": {
+          "enum": ["active", "crossed_out", "uncertain", "corrected"]
+        },
+        "source_text": { "type": ["string", "null"] },
+        "issues": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/issue_code" }
+        },
+        "running_balance_paise": {
+          "type": ["integer", "null"],
+          "description": "Running balance exactly as written. Never calculated by the model."
+        },
+        "customer_name": {
+          "anyOf": [
+            { "$ref": "#/$defs/name_value" },
+            { "type": "null" }
+          ],
+          "description": "Per-entry customer for date_wise pages; null when the page-level customer applies."
+        }
+      }
+    }
+  }
+}

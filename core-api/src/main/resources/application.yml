@@ -1,0 +1,88 @@
+server:
+  port: ${SERVER_PORT:8080}
+  shutdown: graceful
+
+spring:
+  application:
+    name: kadaibook-core-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/kadaibook}
+    username: ${DB_USER:kadai}
+    password: ${DB_PASSWORD:kadai}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:10}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 16MB
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev-only-change-me-to-a-long-random-secret-at-least-32-chars}
+    ttl: ${JWT_TTL:PT12H}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+  ai:
+    base-url: ${AI_SERVICE_URL:http://localhost:8000}
+    internal-token: ${AI_SERVICE_TOKEN:dev-internal-token}
+    connect-timeout: ${AI_CONNECT_TIMEOUT:PT5S}
+    read-timeout: ${AI_READ_TIMEOUT:PT120S}
+    max-transport-attempts: ${AI_MAX_ATTEMPTS:2}
+  storage:
+    backend: ${STORAGE_BACKEND:local}
+    local-root: ${STORAGE_LOCAL_ROOT:./data/pages}
+    s3:
+      bucket: ${S3_BUCKET:}
+      region: ${AWS_REGION:ap-south-1}
+      kms-key-id: ${S3_KMS_KEY_ID:}
+  upload:
+    max-bytes: ${UPLOAD_MAX_BYTES:15728640}
+    max-pixels: ${UPLOAD_MAX_PIXELS:40000000}
+  retention:
+    enabled: ${RETENTION_ENABLED:true}
+    days: ${IMAGE_RETENTION_DAYS:30}
+    cron: ${RETENTION_CRON:0 30 3 * * *}
+  demo:
+    seed: ${DEMO_SEED:false}
+    phone: ${DEMO_PHONE:+919000000001}
+    password: ${DEMO_PASSWORD:kadaibook123}
+    display-name: ${DEMO_DISPLAY_NAME:Ashok (demo)}
+    shop-name: ${DEMO_SHOP_NAME:Kadai Stores (demo)}
+
+logging:
+  level:
+    root: INFO
+    com.kadaibook: INFO
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"

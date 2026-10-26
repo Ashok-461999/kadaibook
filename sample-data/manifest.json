@@ -1,0 +1,10 @@
+{
+  "description": "Synthetic demo page. Not pilot data.",
+  "pages": [
+    {
+      "page_id": "44444444-4444-4444-8444-444444444444",
+      "image": "sample_customer_ledger.png",
+      "label": "sample_customer_ledger.expected.json"
+    }
+  ]
+}
